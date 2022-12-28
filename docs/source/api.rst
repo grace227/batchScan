@@ -1,6 +1,7 @@
-API
-===
+BatchScan Python API
+=====================
+.. automodule:: pvComm
+   :members:
 
-.. autosummary::
-   :toctree: generated
+
 

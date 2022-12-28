@@ -30,7 +30,7 @@ intersphinx_mapping = {
 intersphinx_disabled_domains = ['std']
 
 templates_path = ['_templates']
-autodoc_mock_imports = [‘bs4’, ‘requests’]
+autodoc_mock_imports = ['bs4', 'requests']
 
 # -- Options for HTML output
 

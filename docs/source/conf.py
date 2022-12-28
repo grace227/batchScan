@@ -30,7 +30,7 @@ intersphinx_mapping = {
 intersphinx_disabled_domains = ['std']
 
 templates_path = ['_templates']
-autodoc_mock_imports = ['epics']
+autodoc_mock_imports = ['epics', 'matplotlib', 'numpy', 'scipy', 'cv2']
 
 # -- Options for HTML output
 

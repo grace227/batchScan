@@ -1,10 +1,15 @@
+"""
+BatchScan - Python-based user interface for microscopy beamlines at APS 
+"""
+
 import tkinter as tk
 from tkinter import ttk
 from setupFrame import setupFrame
 from scanFrame import scanFrame
 
 class MainWindow(tk.Frame):
-        
+    """ Start the GUI interface. """
+
     def __init__(self, master):
         self.master = master
         master.title("BNP Scan")

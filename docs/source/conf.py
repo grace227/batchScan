@@ -17,7 +17,7 @@ def run_apidoc(_):
 
     try:
         # Sphinx 1.7+
-        from sphinx.ext import apidoc
+        from sphinx.ext.apidoc import main
         apidoc.main(argv)
     except ImportError:
         # Sphinx 1.6 (and earlier)

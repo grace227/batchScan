@@ -45,7 +45,7 @@ def definePVs():
             'y_center_Rqs':'9idbTAU:SY:PY:RqsPos', 'y_center_Act':'9idbTAU:SY:PY:ActPos',
             'z_value_Rqs':'9idbTAU:SM:SZ:RqsPos', 'z_value_Act':'9idbTAU:SM:SZ:ActPos',
             'tomo_rot_Rqs':'9idbTAU:SM:CT:RqsPos', 'tomo_rot_Act':'9idbTAU:SM:CT:ActPos',
-            'sm_rot_Rqs':'9idbTAU:SM:ST:RqsPos', 'sm_rot_Act':'9idbTAU:SM:ST:ActPos',
+            'sm_rot_Rqs':'9idbTAU:SM:ST:RqsPos', 'sm_rot_Act':'tomo_rot_Act',
             'x_width':'9idbBNP:scan1.P1WD', 'y_width':'9idbBNP:scan2.P1WD',
             'x_step':'9idbBNP:scan1.P1SI', 'y_step':'9idbBNP:scan2.P1SI',
             'dwell':'9idbBNP:scanTran3.C', 'BDA_pos':'9idbTAU:UA:UX:RqsPos',

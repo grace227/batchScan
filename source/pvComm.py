@@ -45,7 +45,7 @@ class pvComm():
         self.logfid.flush()
     
     def getDir(self):
-        """The function gets the current working directory from a PV 
+        """The function gets the current working directory from PV 
         ::
             9idbBNP:saveData_fileSystem
         """
@@ -54,24 +54,45 @@ class pvComm():
         return os.path.join(fs, self.pvs['subdir'].pv.value.replace('mda', ''))
     
     def getBDAx(self):
-        """The function gets the current BDA motor position from a PV ::
+        """The function gets the current BDA motor position from PV 
+        ::
             9idbTAU:UA:UX:RqsPos
         """
         return np.round(self.pvs['BDA_pos'].pv.value, 2)
     
     def getSMAngle(self):
+        """The function gets the current sample rotation from PV 
+        ::
+            9idbTAU:SM:ST:ActPos
+        """
         return np.round(self.pvs['sm_rot_Act'].pv.value, 2)
     
     def getTomoAngle(self):
+        """The function gets the current sample rotation from tomo PV 
+        ::
+            9idbTAU:SM:CT:ActPos
+        """
         return np.round(self.pvs['tomo_rot_Act'].pv.value, 2)
     
     def scanPause(self):
+        """The function increases the following PV by 1
+        ::
+            9idbBNP:scan2.WAIT
+        """
         self.pvs['wait'].put_callback(1)
     
     def scanResume(self):
+        """The function decreases the following PV by 1
+        ::
+            9idbBNP:scan2.WAIT
+        """
         self.pvs['wait'].put_callback(0)
         
     def scanAbort(self):
+        """The function assigns the following PV to 1
+        ::
+            9idbBNP:AbortScans.PROC
+        """
         self.pvs['abort'].put_callback(1)
         
     def resetDetector(self):
@@ -179,29 +200,6 @@ class pvComm():
             time.sleep(0.2)
         
         return self.motorReady_XZTP()
-        
-        # MAX_WAIT_TIME = 2  #sec
-        # t_diff = 0
-        # tin = time.time()
-        
-        # while (self.pvs['xztp_motor_ready'].pv.get(as_string=True) != 'Ready') & (t_diff < MAX_WAIT_TIME):
-        #     self.logger('%s: Waiting for piezoX.\n'%(getCurrentTime()))
-        #     time.sleep(0.2)
-        #     t_diff = time.time() - tin
-        # x_status = 1 if self.pvs['xztp_motor_ready'].pv.get(as_string=True) == 'Ready' else 0
-        # print(x_status)
-            
-        # self.pvs['piezo_yCenter'].pv.put(1)
-        # t_diff = 0
-        # tin = time.time()
-        # while (self.pvs['y_motor_ready'].pv.get(as_string=True) != 'Ready') & (t_diff < MAX_WAIT_TIME):
-        #     self.logger('%s: Waiting for piezoY.\n'%(getCurrentTime()))
-        #     time.sleep(0.2)
-        #     t_diff = time.time() - tin
-        # y_status = 1 if self.pvs['y_motor_ready'].pv.get(as_string=True) == 'Ready' else 0
-        # print(y_status)
-        
-        # return x_status * y_status
 
     
     def assignPosValToPVs(self, pvstr, pvval):
@@ -235,28 +233,6 @@ class pvComm():
             self.logger('%s: %s motor not in position, current: %.2f,'\
                             ' request: %.2f\n'%(getCurrentTime(), l, actpv.value, rqspv.value))
             return 0
-    
-#    def motorReady(self, label, mtolerance):
-#        self.logger('%s: Checking whether motors are ready.\n'%(getCurrentTime()))
-#        rules = [0] * len(label)
-#        for i, (l, t) in enumerate(zip(label, mtolerance)):
-#            actpv = self.pvs['%s_Act'%l].pv
-#            rqspv = self.pvs['%s_Rqs'%l].pv
-#            self.pvs['%s_Act'%l].motorReady(rqspv, t)
-#            if self.pvs['%s_Act'%l].motor_ready:
-#                self.logger('%s: %s motor is in position with value'\
-#                                '%.2f\n'%(getCurrentTime(), l, actpv.value))
-#                rules[i] = 1
-#            else:
-#                self.logger('%s: %s motor not in position, current: %.2f,'\
-#                                ' request: %.2f\n'%(getCurrentTime(), l, actpv.value, rqspv.value))
-#            time.sleep(1)
-#                
-#        if all(rules):
-#            self.logger('%s: Motors ready\n'%getCurrentTime())
-#            return 1
-#        else:
-#            return 0         
     
     def nextScanName(self):
         return '%s%s.mda'%(self.pvs['basename'].pv.value, 

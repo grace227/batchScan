@@ -7,7 +7,7 @@ This section contains the API reference and usage information for BatchScan.
 .. toctree::
    api/pvComm
 
-.. automodule:: MainWindow
+.. automodule:: bnp_gui
    :members:
    :undoc-members:
    :show-inheritance: 

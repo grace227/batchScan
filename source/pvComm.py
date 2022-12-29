@@ -45,8 +45,9 @@ class pvComm():
         self.logfid.flush()
     
     def getDir(self):
-        """The function gets the current working directory from a PV ::
-                9idbBNP:saveData_fileSystem
+        """The function gets the current working directory from a PV 
+        ::
+            9idbBNP:saveData_fileSystem
         """
         fs = self.pvs['filesys'].pv.value
         fs = fs.replace('//micdata/data1', '/mnt/micdata1')

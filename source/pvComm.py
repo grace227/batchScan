@@ -10,10 +10,14 @@ class pvComm():
 
     def __init__(self, userdir = None, log = 'log.txt'):
         """Constructor method, initializing the working directory and creating a log file
-        :param userdir: path of the working directory
-        :type userdir: string, optional
-	:param log: filename of the log file
-	:type log: string, optional
+
+        Parameters
+        ----------
+        userdir : str, optional
+        userdir is the path of the working directory
+        log: str, optional
+        log is the filename of the log file. Log file contains the machine status during scans
+        
         """
 
         self.pvs = getPVobj()
@@ -26,8 +30,12 @@ class pvComm():
             
     def logger(self, msg):
         """The function outputs and writes msg in both GUI text field or log file
-        :param msg: text message
-        :type msg: string, required
+
+        Parameters
+        ----------
+        msg : str
+        Text message to be outputted or logged in GUI interface or log file. 
+        
         """
         sys.stdout.write(msg)
         sys.stdout.flush()
@@ -37,6 +45,8 @@ class pvComm():
         self.logfid.flush()
     
     def getDir(self):
+        """The function gets the current working directory from PV ::saveData_fileSystem
+        """
         fs = self.pvs['filesys'].pv.value
         fs = fs.replace('//micdata/data1', '/mnt/micdata1')
         return os.path.join(fs, self.pvs['subdir'].pv.value.replace('mda', ''))

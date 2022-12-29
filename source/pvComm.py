@@ -25,6 +25,10 @@ class pvComm():
         self.logfid = open(self.logfilepath, 'a')
             
     def logger(self, msg):
+        """The function outputs and writes msg in both GUI text field or log file
+        :param msg: text message
+        :type msg: string, required
+        """
         sys.stdout.write(msg)
         sys.stdout.flush()
         if self.logfid.closed:

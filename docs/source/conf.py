@@ -3,31 +3,6 @@ import os, sys
 import sphinx_rtd_theme
 sys.path.insert(0, os.path.abspath('../../source'))  
 
-# Methods for auto-generate .rst files for API documentation
-def run_apidoc(_):
-    ignore_paths = [...]
-    argv = [
-        "-f",
-        "-T",
-        "-e",
-        "-M",
-        "-o", ".",
-        ".."
-    ] + ignore_paths
-
-    try:
-        # Sphinx 1.7+
-        from sphinx.ext.apidoc import main
-        apidoc.main(argv)
-    except ImportError:
-        # Sphinx 1.6 (and earlier)
-        from sphinx import apidoc
-        argv.insert(0, apidoc.__file__)
-        apidoc.main(argv)
-
-
-def setup(app):
-    app.connect('builder-inited', run_apidoc)
 
 # -- Project information
 
@@ -45,6 +20,7 @@ extensions = [
     'sphinx.ext.duration',
     'sphinx.ext.doctest',
     'sphinx.ext.autodoc',
+    'sphinx.ext.napoleon',
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
 ]
@@ -72,6 +48,10 @@ html_theme_options = {
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = project + 'doc'
+
+# -- Options for Napoleon output ------------------------------------------
+napoleon_google_docstring = False
+napoleon_numpy_docstring = True
 
 
 # -- Options for LaTeX output ---------------------------------------------

@@ -14,9 +14,9 @@ class pvComm():
         Parameters
         ----------
         userdir : str, optional
-        userdir is the path of the working directory
+            userdir is the path of the working directory
         log: str, optional
-        log is the filename of the log file. Log file contains the machine status during scans
+            log is the filename of the log file. Log file contains the machine status during scans
         
         """
 
@@ -34,7 +34,7 @@ class pvComm():
         Parameters
         ----------
         msg : str
-        Text message to be outputted or logged in GUI interface or log file. 
+            Text message to be outputted or logged in GUI interface or log file. 
         
         """
         sys.stdout.write(msg)
@@ -53,6 +53,9 @@ class pvComm():
         return os.path.join(fs, self.pvs['subdir'].pv.value.replace('mda', ''))
     
     def getBDAx(self):
+        """The function gets the current BDA motor position from a PV::
+            9idbTAU:UA:UX:RqsPos
+        """
         return np.round(self.pvs['BDA_pos'].pv.value, 2)
     
     def getSMAngle(self):

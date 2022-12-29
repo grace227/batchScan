@@ -7,7 +7,7 @@ This section contains the API reference and usage information for BatchScan.
 .. toctree::
    api/pvComm
 
-.. automodule:: pyComm
+.. automodule:: pvComm
    :members:
    :undoc-members:
    :show-inheritance: 

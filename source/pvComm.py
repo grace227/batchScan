@@ -45,15 +45,15 @@ class pvComm():
         self.logfid.flush()
     
     def getDir(self):
-        """The function gets the current working directory from a PV::
-            9idbBNP:saveData_fileSystem
+        """The function gets the current working directory from a PV ::
+                9idbBNP:saveData_fileSystem
         """
         fs = self.pvs['filesys'].pv.value
         fs = fs.replace('//micdata/data1', '/mnt/micdata1')
         return os.path.join(fs, self.pvs['subdir'].pv.value.replace('mda', ''))
     
     def getBDAx(self):
-        """The function gets the current BDA motor position from a PV::
+        """The function gets the current BDA motor position from a PV ::
             9idbTAU:UA:UX:RqsPos
         """
         return np.round(self.pvs['BDA_pos'].pv.value, 2)

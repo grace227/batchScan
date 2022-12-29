@@ -1,18 +1,21 @@
-"""
-Created on Wed Jul 28 14:32:26 2021
-
-@author: graceluo
-
-Function to setup scan, interact with PV mostly
-"""
-
 from pvObjects import getPVobj
 from misc import getCurrentTime
 import os, time, sys
 import numpy as np
 
 class pvComm():
+
+    """This is a class that handles epics communication
+    """
+
     def __init__(self, userdir = None, log = 'log.txt'):
+        """Constructor method, initializing the working directory and creating a log file
+        :param userdir: path of the working directory
+        :type userdir: string, optional
+	:param log: filename of the log file
+	:type log: string, optional
+        """
+
         self.pvs = getPVobj()
         if userdir is None:
             self.userdir = self.getDir()

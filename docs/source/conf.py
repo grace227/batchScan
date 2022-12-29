@@ -31,7 +31,7 @@ intersphinx_disabled_domains = ['std']
 
 templates_path = ['_templates']
 autodoc_mock_imports = ['epics', 'matplotlib', 'numpy', 'scipy', 'cv2', 
-			'pandas', 'Transform', 'h5py', 'sklearn']
+			'pandas', 'Transform', 'h5py', 'sklearn','skimage']
 
 # -- Options for HTML output
 

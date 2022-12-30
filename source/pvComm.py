@@ -88,7 +88,7 @@ class pvComm():
         
     def scanAbort(self):
         """The function assigns the following PV to 1.
-        PV that involves ::
+        Involved PV ::
             9idbBNP:AbortScans.PROC
         """
         self.pvs['abort'].put_callback(1)
@@ -96,16 +96,16 @@ class pvComm():
     def resetDetector(self):
         """The function resets XRF detector if it hangs. 
         
-        Returns
-          -------
-          float
-            1 if successful or -1 when reset fails
-        
         Involved PVs ::
             netCDF file write   --> 9idbXMAP:netCDF1:WriteFile
             netCDF file capture --> 9idbXMAP:netCDF1:Capture
             MCS stop            --> 9idbBNP:3820:StopAll
             XMAP stop           --> 9idbXMAP:StopAll
+        
+        Returns
+          -------
+          float
+            1 if successful or -1 when reset fails
         """
         print('check netCDF status: current status is %s'%(self.pvs['netCDF_status'].pv.get(as_string=True)))
         if self.pvs['netCDF_status'].pv.get(as_string=True) == 'Writing':
@@ -125,14 +125,14 @@ class pvComm():
     def detectorDone(self):
         """The function checks if XMAP or MCS are in the idle mode. 
         
+        Involved PVs ::
+            MCS status  --> 9idbBNP:3820:Acquiring
+            XMAP status --> 9idbXMAP:Acquiring
+        
         Returns
           -------
           boolean
             True if idle; False when either XMAP or MCS is active
-        
-        Involved PVs ::
-            MCS status  --> 9idbBNP:3820:Acquiring
-            XMAP status --> 9idbXMAP:Acquiring
         """
         xmap_done = self.pvs['xmap_status'].pv.value
         mcs_done = self.pvs['mcs_status'].pv.value
@@ -157,15 +157,15 @@ class pvComm():
         self.logger('%s'%msg)
     
     def changeTomoRotate(self, theta):
-        """The function rotates sample to the desired angle during tomographic data collection
+        """The function rotates sample to the desired angle during tomographic data collection.
+        
+        Involved PV ::
+            9idbTAU:SM:CT:ActPos
         
         Parameters
         ----------
         theta : float
             Target angle of sample rotation 
-        
-        Involved PV ::
-            9idbTAU:SM:CT:ActPos
         
         """
         curr_angle = np.round(self.pvs['tomo_rot_Act'].pv.value, 2)
@@ -174,15 +174,15 @@ class pvComm():
         self.pvs['tomo_rot_Act'].put_callback(theta)
     
     def changeSMRotate(self, theta):
-        """The function rotates sample to the desired angle
+        """The function rotates sample to the desired angle.
+        
+        Involved PV ::
+            9idbTAU:SM:ST:ActPos
         
         Parameters
         ----------
         theta : float
             Target angle of sample rotation 
-        
-        Involved PV ::
-            9idbTAU:SM:ST:ActPos
         """
         curr_angle = np.round(self.pvs['sm_rot_Act'].curr_value, 2)
         t = getCurrentTime()
@@ -190,6 +190,8 @@ class pvComm():
         self.pvs['sm_rot_Act'].put_callback(theta)
     
     def blockBeamBDA(self, BDA):
+        """The function move BDA 
+        """
         bda_pos = BDA - 500
         t = getCurrentTime()
         self.logger('%s: Move BDA to block position at: %.3f\n'%(t, bda_pos))

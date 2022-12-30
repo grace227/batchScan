@@ -238,22 +238,22 @@ class pvComm():
         self.logger('%s: Changing X scan mode to Piezo only\n'%(getCurrentTime()))
         self.pvs['x_motorMode'].pv.put(2)
 
-#     def setXYcenter(self):
-#         """The function udpates the current x- and y- motor position as the center of a scan.
-#         Involved PV ::
-#             x-scan record --> 9idbBNP:scan1.P1CP = 9idbTAU:SM:PX:RqsPos
-#             y-scan record --> 9idbBNP:scan2.P1CP = 9idbTAU:SY:PY:RqsPos
-#         """
-#         self.logger('%s: Update the current position as the center of'\
-#                     'the scan.\n'%(getCurrentTime()))
-#         x_rqs = self.pvs['x_center_Rqs'].pv.get()
-#         y_rqs = self.pvs['y_center_Rqs'].pv.get()
-#         self.pvs['x_updatecenter'].pv.put(round(x_rqs, 2))
-#         self.pvs['y_updatecenter'].pv.put(round(y_rqs, 2))
-#         self.logger('%s: X_center valute: %.2f \n'%(getCurrentTime(), x_rqs))
-#         self.logger('%s: Y_center valute: %.2f \n'%(getCurrentTime(), y_rqs))
-#         # self.pvs['x_setcenter'].pv.put(1)
-#         # self.pvs['y_setcenter'].pv.put(1)
+    def setXYcenter(self):
+        """The function udpates the current x- and y- motor position as the center of a scan.
+        Involved PV ::
+            x-scan record --> 9idbBNP:scan1.P1CP = 9idbTAU:SM:PX:RqsPos
+            y-scan record --> 9idbBNP:scan2.P1CP = 9idbTAU:SY:PY:RqsPos
+        """
+        self.logger('%s: Update the current position as the center of'\
+                    'the scan.\n'%(getCurrentTime()))
+        x_rqs = self.pvs['x_center_Rqs'].pv.get()
+        y_rqs = self.pvs['y_center_Rqs'].pv.get()
+        self.pvs['x_updatecenter'].pv.put(round(x_rqs, 2))
+        self.pvs['y_updatecenter'].pv.put(round(y_rqs, 2))
+        self.logger('%s: X_center valute: %.2f \n'%(getCurrentTime(), x_rqs))
+        self.logger('%s: Y_center valute: %.2f \n'%(getCurrentTime(), y_rqs))
+        # self.pvs['x_setcenter'].pv.put(1)
+        # self.pvs['y_setcenter'].pv.put(1)
         
 #     def motorReady_XZTP(self):
 #         status = self.pvs['xztp_motor_ready'].pv.get(as_string=True)

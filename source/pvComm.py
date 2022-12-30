@@ -97,7 +97,8 @@ class pvComm():
         
     def resetDetector(self):
         """The function resets XRF detector if it hangs. It stops the following PVs
-        ::
+        .. highlight:: python
+        .. code-block:: python
             print({'netCDF file write': '9idbXMAP:netCDF1:WriteFile',
              'netCDF file capture': '9idbXMAP:netCDF1:Capture'
              'MCS stop': '9idbBNP:3820:StopAll'

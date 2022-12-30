@@ -17,7 +17,6 @@ class pvComm():
             userdir is the path of the working directory
         log: str, optional
             log is the filename of the log file. Log file contains the machine status during scans
-        
         """
 
         self.pvs = getPVobj()
@@ -35,7 +34,6 @@ class pvComm():
         ----------
         msg : str
             Text message to be outputted or logged in GUI interface or log file. 
-        
         """
         sys.stdout.write(msg)
         sys.stdout.flush()
@@ -45,8 +43,8 @@ class pvComm():
         self.logfid.flush()
     
     def getDir(self):
-        """The function gets the current working directory from PV 
-        ::
+        """The function gets the current working directory.
+        PV that involves ::
             9idbBNP:saveData_fileSystem
         """
         fs = self.pvs['filesys'].pv.value
@@ -54,54 +52,54 @@ class pvComm():
         return os.path.join(fs, self.pvs['subdir'].pv.value.replace('mda', ''))
     
     def getBDAx(self):
-        """The function gets the current BDA motor position from PV 
-        ::
+        """The function gets the current BDA motor position. 
+        PV that involves ::
             9idbTAU:UA:UX:RqsPos
         """
         return np.round(self.pvs['BDA_pos'].pv.value, 2)
     
     def getSMAngle(self):
-        """The function gets the current sample rotation from PV 
-        ::
+        """The function gets the current sample rotation. 
+        PV that involves ::
             9idbTAU:SM:ST:ActPos
         """
         return np.round(self.pvs['sm_rot_Act'].pv.value, 2)
     
     def getTomoAngle(self):
-        """The function gets the current sample rotation from tomo PV 
-        ::
+        """The function gets the current sample rotation. 
+        PV that involves ::
             9idbTAU:SM:CT:ActPos
         """
         return np.round(self.pvs['tomo_rot_Act'].pv.value, 2)
     
     def scanPause(self):
         """The function increases the following PV by 1
-        ::
+        PV that involves ::
             9idbBNP:scan2.WAIT
         """
         self.pvs['wait'].put_callback(1)
     
     def scanResume(self):
         """The function decreases the following PV by 1
-        ::
+        PV that involves ::
             9idbBNP:scan2.WAIT
         """
         self.pvs['wait'].put_callback(0)
         
     def scanAbort(self):
         """The function assigns the following PV to 1
-        ::
+        PV that involves ::
             9idbBNP:AbortScans.PROC
         """
         self.pvs['abort'].put_callback(1)
         
     def resetDetector(self):
-        """The function resets XRF detector if it hangs. It stops the following PVs
-        ::
+        """The function resets XRF detector if it hangs. 
+        PV that involves ::
             netCDF file write   --> 9idbXMAP:netCDF1:WriteFile
             netCDF file capture --> 9idbXMAP:netCDF1:Capture
-            MCS stop      --> 9idbBNP:3820:StopAll
-            XMAP stop      --> 9idbXMAP:StopAll
+            MCS stop            --> 9idbBNP:3820:StopAll
+            XMAP stop           --> 9idbXMAP:StopAll
         """
         print('check netCDF status: current status is %s'%(self.pvs['netCDF_status'].pv.get(as_string=True)))
         if self.pvs['netCDF_status'].pv.get(as_string=True) == 'Writing':
@@ -119,21 +117,38 @@ class pvComm():
             return -1
         
     def logCryoTemp(self):
+        """The function logs temperatures in units of K.
+        PV that involves ::
+            CryoCon1:In_1   --> 9idbCRYO:CryoCon1:In_1:Temp.VAL
+            CryoCon1:In_3   --> 9idbCRYO:CryoCon1:In_3:Temp.VAL
+            CryoCon1:In_2   --> 9idbCRYO:CryoCon1:In_2:Temp.VAL
+            CryoCon3:In_2   --> 9idbCRYO:CryoCon3:In_2:Temp.VAL
+            CryoCon3:Loop_2 --> 9idbCRYO:CryoCon3:Loop_2:SetControl.VAL
+        """
         temp_pv = ['CryoCon1:In_1', 'CryoCon1:In_2', 'CryoCon1:In_3', 'CryoCon3:In_2', 'CryoCon3:Loop_2']
         s = ['%s: %.2f'%(t, self.pvs[t].pv.value) for t in temp_pv]
         s = ', '.join(s)
         msg = getCurrentTime() + ': ' + s + '\n'
         self.logger('%s'%msg)
 
-    def detectorDone(self):
-        xmap_done = self.pvs['xmap_status'].pv.value
-        mcs_done = self.pvs['mcs_status'].pv.value
-        if all([not xmap_done, not mcs_done]):
-            return False
-        else:
-            return True
+    # def detectorDone(self):
+    #     xmap_done = self.pvs['xmap_status'].pv.value
+    #     mcs_done = self.pvs['mcs_status'].pv.value
+    #     if all([not xmap_done, not mcs_done]):
+    #         return False
+    #     else:
+    #         return True
     
     def changeTomoRotate(self, theta):
+        """The function rotates sample to the desired angle during tomographic data collection
+        PV that involves ::
+            9idbTAU:SM:CT:ActPos
+        Parameters
+        ----------
+        theta : float
+            Target angle of sample rotation 
+        
+        """
         curr_angle = np.round(self.pvs['tomo_rot_Act'].pv.value, 2)
         t = getCurrentTime()
         self.logger('%s; Changing tomo rotation angle from to %.2f to %.2f\n'%(t, curr_angle, theta))

@@ -95,7 +95,6 @@ class pvComm():
         
     def resetDetector(self):
         """The function resets XRF detector if it hangs. 
-        
         Involved PVs ::
             netCDF file write   --> 9idbXMAP:netCDF1:WriteFile
             netCDF file capture --> 9idbXMAP:netCDF1:Capture
@@ -124,7 +123,6 @@ class pvComm():
         
     def detectorDone(self):
         """The function checks if XMAP or MCS are in the idle mode. 
-        
         Involved PVs ::
             MCS status  --> 9idbBNP:3820:Acquiring
             XMAP status --> 9idbXMAP:Acquiring
@@ -158,7 +156,6 @@ class pvComm():
     
     def changeTomoRotate(self, theta):
         """The function rotates sample to the desired angle during tomographic data collection.
-        
         Involved PV ::
             9idbTAU:SM:CT:ActPos
         
@@ -166,7 +163,6 @@ class pvComm():
         ----------
         theta : float
             Target angle of sample rotation 
-        
         """
         curr_angle = np.round(self.pvs['tomo_rot_Act'].pv.value, 2)
         t = getCurrentTime()
@@ -175,7 +171,6 @@ class pvComm():
     
     def changeSMRotate(self, theta):
         """The function rotates sample to the desired angle.
-        
         Involved PV ::
             9idbTAU:SM:ST:ActPos
         
@@ -190,7 +185,14 @@ class pvComm():
         self.pvs['sm_rot_Act'].put_callback(theta)
     
     def blockBeamBDA(self, BDA):
-        """The function move BDA 
+        """The function move BDA by 500 um, relative to its IN positon, to block the incident X-ray beam
+        Involved PV ::
+            9idbTAU:UA:UX:RqsPos
+            
+        Parameters
+        ----------
+        BDA : float
+            Motor position of BDA when it is in the beam path 
         """
         bda_pos = BDA - 500
         t = getCurrentTime()
@@ -198,19 +200,41 @@ class pvComm():
         self.pvs['BDA_pos'].put_callback(bda_pos)
         
     def openBeamBDA(self, BDA):
+        """The function move BDA to its IN positon.
+        Involved PV ::
+            9idbTAU:UA:UX:RqsPos
+            
+        Parameters
+        ----------
+        BDA : float
+            Motor position of BDA when it is in the beam path 
+        """
         self.logger('%s: Move BDA to open position at: %.3f\n'%(getCurrentTime(), BDA))
         self.pvs['BDA_pos'].put_callback(BDA)
     
-    def changeXYcombinedMode(self):        
+    def changeXYcombinedMode(self):     
+        """The function change the x- and y- motor combined motion (coarse + piezo).
+        Involved PV ::
+            x motor mode --> 9idbTAU:SM:Ps:xMotionChoice.VAL = 0
+            y motor mode --> 9idbTAU:SY:Ps:yMotionChoice.VAL = 0
+        """
         self.logger('%s; Changing XY scan mode to combined motion\n'%(getCurrentTime()))
         self.pvs['x_motorMode'].pv.put(0)
         self.pvs['y_motorMode'].pv.put(0)
         
-    def changeXtoCombinedMode(self):        
+    def changeXtoCombinedMode(self):    
+         """The function change the x-motor combined motion (coarse + piezo).
+        Involved PV ::
+            x motor mode --> 9idbTAU:SM:Ps:xMotionChoice.VAL = 0
+        """
         self.logger('%s; Changing XY scan mode to combined motion\n'%(getCurrentTime()))
         self.pvs['x_motorMode'].pv.put(0) 
         
     def changeXtoPiezolMode(self):
+        """The function change the x-motor to piezo mode.
+        Involved PV ::
+            x motor mode --> 9idbTAU:SM:Ps:xMotionChoice.VAL = 2
+        """
         self.logger('%s: Changing X scan mode to Piezo only\n'%(getCurrentTime()))
         self.pvs['x_motorMode'].pv.put(2)
 

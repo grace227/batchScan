@@ -185,7 +185,7 @@ class pvComm():
         self.pvs['sm_rot_Act'].put_callback(theta)
     
     def blockBeamBDA(self, BDA):
-        """The function move BDA by 500 um, relative to its IN positon, to block the incident X-ray beam
+        """The function move BDA by 500 um, relative to its IN positon, to block the incident X-ray beam.
         Involved PV ::
             9idbTAU:UA:UX:RqsPos
             

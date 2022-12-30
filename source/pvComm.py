@@ -199,28 +199,28 @@ class pvComm():
         self.logger('%s: Move BDA to block position at: %.3f\n'%(t, bda_pos))
         self.pvs['BDA_pos'].put_callback(bda_pos)
         
-#     def openBeamBDA(self, BDA):
-#         """The function move BDA to its IN positon.
-#         Involved PV ::
-#             9idbTAU:UA:UX:RqsPos
+    def openBeamBDA(self, BDA):
+        """The function move BDA to its IN positon.
+        Involved PV ::
+            9idbTAU:UA:UX:RqsPos
             
-#         Parameters
-#         ----------
-#         BDA : float
-#             Motor position of BDA when it is in the beam path 
-#         """
-#         self.logger('%s: Move BDA to open position at: %.3f\n'%(getCurrentTime(), BDA))
-#         self.pvs['BDA_pos'].put_callback(BDA)
+        Parameters
+        ----------
+        BDA : float
+            Motor position of BDA when it is in the beam path 
+        """
+        self.logger('%s: Move BDA to open position at: %.3f\n'%(getCurrentTime(), BDA))
+        self.pvs['BDA_pos'].put_callback(BDA)
     
-#     def changeXYcombinedMode(self):     
-#         """The function change the x- and y- motor combined motion (coarse + piezo).
-#         Involved PV ::
-#             x motor mode --> 9idbTAU:SM:Ps:xMotionChoice.VAL = 0
-#             y motor mode --> 9idbTAU:SY:Ps:yMotionChoice.VAL = 0
-#         """
-#         self.logger('%s; Changing XY scan mode to combined motion\n'%(getCurrentTime()))
-#         self.pvs['x_motorMode'].pv.put(0)
-#         self.pvs['y_motorMode'].pv.put(0)
+    def changeXYcombinedMode(self):     
+        """The function change the x- and y- motor combined motion (coarse + piezo).
+        Involved PV ::
+            x motor mode --> 9idbTAU:SM:Ps:xMotionChoice.VAL = 0
+            y motor mode --> 9idbTAU:SY:Ps:yMotionChoice.VAL = 0
+        """
+        self.logger('%s; Changing XY scan mode to combined motion\n'%(getCurrentTime()))
+        self.pvs['x_motorMode'].pv.put(0)
+        self.pvs['y_motorMode'].pv.put(0)
         
 #     def changeXtoCombinedMode(self):    
 #         """The function change the x-motor combined motion (coarse + piezo).

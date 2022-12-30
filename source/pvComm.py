@@ -255,43 +255,73 @@ class pvComm():
         # self.pvs['x_setcenter'].pv.put(1)
         # self.pvs['y_setcenter'].pv.put(1)
         
-#     def motorReady_XZTP(self):
-#         status = self.pvs['xztp_motor_ready'].pv.get(as_string=True)
-#         ready = 1 if status == 'Ready' else 0
-#         return ready
-        
-#     def sumMotorDiff(self, motorlist):
-#         sum_diff = 0
-#         for m in motorlist:
-#             sum_diff += abs(self.pvs['%s_Rqs'%m[0]].pv.get() - self.pvs['%s_Act'%m[0]].pv.get())
-#         return sum_diff
-    
-    
-#     def centerPiezoXY(self):
-#         MAX_WAIT_TIME = 5  #sec
-#         self.logger('%s: Centering piezoX and piezoY.\n'%(getCurrentTime()))
-#         self.pvs['piezo_xCenter'].pv.put(1)
-#         self.pvs['piezo_yCenter'].pv.put(1)
-#         self.logger('%s: Piezo xcenter value: %.2f\n'%(getCurrentTime(), self.pvs['x_piezo_val'].pv.get()))
-#         self.logger('%s: Piezo ycenter value: %.2f\n'%(getCurrentTime(), self.pvs['y_piezo_val'].pv.get()))
-#         tin = time.time()
-#         t_diff = 0
-#         while (not self.motorReady_XZTP()) & (t_diff < MAX_WAIT_TIME):
-#             self.logger('%s: Waiting for XZTPX to be ready.\n'%(getCurrentTime()))
-#             t_diff = time.time() - tin
-#             time.sleep(0.2)
-        
-#         return self.motorReady_XZTP()
-
-    
-#     def assignPosValToPVs(self, pvstr, pvval):
-#         for s_, v_ in zip(pvstr, pvval):
-#             self.pvs[s_].pv.put(v_)
-#             self.logger('%s: Change %s to %.3f\n' % (getCurrentTime(), s_, v_))
+    def motorReady_XZTP(self):
+        """The function checks if XZTP motor is ready
+        Involved PV ::
+            9idbTAU:SM:Ps:Ready
             
-#     def assignSinglePV(self, pvstr, pvval):
-#         self.pvs[pvstr].pv.put(pvval)
-#         self.logger('%s: Change %s to %.3f\n' % (getCurrentTime(), pvstr, pvval))
+        Returns
+          -------
+          float
+            1 if XZTP motor is ready or 0 otherwise
+        """
+        status = self.pvs['xztp_motor_ready'].pv.get(as_string=True)
+        ready = 1 if status == 'Ready' else 0
+        return ready
+        
+    # def sumMotorDiff(self, motorlist):
+    #     sum_diff = 0
+    #     for m in motorlist:
+    #         sum_diff += abs(self.pvs['%s_Rqs'%m[0]].pv.get() - self.pvs['%s_Act'%m[0]].pv.get())
+    #     return sum_diff
+    
+    
+    def centerPiezoXY(self):
+        """The function centers the x- and y- piezo motor
+        Involved PV ::
+            piezo x-center --> 9idbTAU:SM:Ps:xCenter.PROC
+            piezo y-center --> 9idbTAU:SY:Ps:yCenter.PROC
+            
+        Returns
+          -------
+          float
+            1 if motor is ready or 0 otherwise
+        """
+        MAX_WAIT_TIME = 5  #sec
+        self.logger('%s: Centering piezoX and piezoY.\n'%(getCurrentTime()))
+        self.pvs['piezo_xCenter'].pv.put(1)
+        self.pvs['piezo_yCenter'].pv.put(1)
+        self.logger('%s: Piezo xcenter value: %.2f\n'%(getCurrentTime(), self.pvs['x_piezo_val'].pv.get()))
+        self.logger('%s: Piezo ycenter value: %.2f\n'%(getCurrentTime(), self.pvs['y_piezo_val'].pv.get()))
+        tin = time.time()
+        t_diff = 0
+        while (not self.motorReady_XZTP()) & (t_diff < MAX_WAIT_TIME):
+            self.logger('%s: Waiting for XZTPX to be ready.\n'%(getCurrentTime()))
+            t_diff = time.time() - tin
+            time.sleep(0.2)
+        
+        return self.motorReady_XZTP()
+    
+    def assignPosValToPVs(self, pvstr, pvval):
+        """The function assigns values to PVs 
+        Involved PV ::
+            piezo x-center --> 9idbTAU:SM:Ps:xCenter.PROC
+            piezo y-center --> 9idbTAU:SY:Ps:yCenter.PROC
+            
+        Parameters
+        ----------
+        pvstr : list
+            A list that holds keys of pvname
+        pvval: list
+            A list that holds the values of the PVs in pvstr
+        """
+        for s_, v_ in zip(pvstr, pvval):
+            self.pvs[s_].pv.put(v_)
+            self.logger('%s: Change %s to %.3f\n' % (getCurrentTime(), s_, v_))
+            
+    def assignSinglePV(self, pvstr, pvval):
+        self.pvs[pvstr].pv.put(pvval)
+        self.logger('%s: Change %s to %.3f\n' % (getCurrentTime(), pvstr, pvval))
             
 #     def writeScanInit(self, mode, smpinfo, scandic):
 #         next_sc = self.nextScanName()

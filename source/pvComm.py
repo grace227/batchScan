@@ -222,21 +222,21 @@ class pvComm():
         self.pvs['x_motorMode'].pv.put(0)
         self.pvs['y_motorMode'].pv.put(0)
         
-#     def changeXtoCombinedMode(self):    
-#         """The function change the x-motor combined motion (coarse + piezo).
-#         Involved PV ::
-#             x motor mode --> 9idbTAU:SM:Ps:xMotionChoice.VAL = 0
-#         """
-#         self.logger('%s; Changing XY scan mode to combined motion\n'%(getCurrentTime()))
-#         self.pvs['x_motorMode'].pv.put(0) 
+    def changeXtoCombinedMode(self):    
+        """The function change the x-motor combined motion (coarse + piezo).
+        Involved PV ::
+            x motor mode --> 9idbTAU:SM:Ps:xMotionChoice.VAL = 0
+        """
+        self.logger('%s; Changing XY scan mode to combined motion\n'%(getCurrentTime()))
+        self.pvs['x_motorMode'].pv.put(0) 
         
-#     def changeXtoPiezolMode(self):
-#         """The function change the x-motor to piezo mode.
-#         Involved PV ::
-#             x motor mode --> 9idbTAU:SM:Ps:xMotionChoice.VAL = 2
-#         """
-#         self.logger('%s: Changing X scan mode to Piezo only\n'%(getCurrentTime()))
-#         self.pvs['x_motorMode'].pv.put(2)
+    def changeXtoPiezolMode(self):
+        """The function change the x-motor to piezo mode.
+        Involved PV ::
+            x motor mode --> 9idbTAU:SM:Ps:xMotionChoice.VAL = 2
+        """
+        self.logger('%s: Changing X scan mode to Piezo only\n'%(getCurrentTime()))
+        self.pvs['x_motorMode'].pv.put(2)
 
 #     def setXYcenter(self):
 #         """The function udpates the current x- and y- motor position as the center of a scan.

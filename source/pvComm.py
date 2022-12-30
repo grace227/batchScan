@@ -223,7 +223,7 @@ class pvComm():
         self.pvs['y_motorMode'].pv.put(0)
         
     def changeXtoCombinedMode(self):    
-         """The function change the x-motor combined motion (coarse + piezo).
+        """The function change the x-motor combined motion (coarse + piezo).
         Involved PV ::
             x motor mode --> 9idbTAU:SM:Ps:xMotionChoice.VAL = 0
         """
@@ -239,6 +239,11 @@ class pvComm():
         self.pvs['x_motorMode'].pv.put(2)
 
     def setXYcenter(self):
+        """The function udpates the current x- and y- motor position as the center of a scan.
+        Involved PV ::
+            x-scan record --> 9idbBNP:scan1.P1CP = 9idbTAU:SM:PX:RqsPos
+            y-scan record --> 9idbBNP:scan2.P1CP = 9idbTAU:SY:PY:RqsPos
+        """
         self.logger('%s: Update the current position as the center of'\
                     'the scan.\n'%(getCurrentTime()))
         x_rqs = self.pvs['x_center_Rqs'].pv.get()
